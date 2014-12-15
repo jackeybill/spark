@@ -1,0 +1,34 @@
+@(document: Document)
+
+@import collection.JavaConverters.asScalaBufferConverter
+@import org.pegdown.ast._
+
+@main("Scala School 2 - " + renderText(document.title)) {
+  <header class="jumbotron subhead">
+    <div class="container">
+      @renderHtml(document.title)
+      @renderHtml(document.lead: _*)
+    </div>
+  </header>
+
+  <div class="span3 scaffold-sidebar">
+    <ul class="nav nav-list scaffold-sidenav">
+      @for((title, _) <- document.sections) {
+        <li><a href="#@renderHref(title)"><i class="icon-chevron-right"></i> @renderText(title.getChildren.asScala: _*)</a></li>
+      }
+    </ul>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="span9">
+        @for((title, content) <- document.sections) {
+          <section id="@renderHref(title)">
+            <div class="page-header">@renderHtml(title)</div>
+            @renderHtml(content: _*)
+          </section>
+        }
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,98 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>@title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/assets/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/bootstrap/2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    <link href="/assets/codemirror/3.14/lib/codemirror.css" rel="stylesheet">
+    <link href="/assets/codemirror/3.14/theme/solarized.css" rel="stylesheet">
+    <link href="/assets/scaffold.css" rel="stylesheet">
+    <link href="/assets/show-hint.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="/assets/html5shiv/3.6.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body data-spy="scroll" data-target=".scaffold-sidebar">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/"><img src="/assets/img/twitter-bird-dark-bgs.png"> Scala School 2</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Getting Started <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/getting-started/background">Background</a></li>
+                  <li><a href="/getting-started/readme">README</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Data and Control Flow <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/data-and-control-flow/variable-declarations-and-expressions">Variables and Expressions</a></li>
+                  <li><a href="/data-and-control-flow/type-inference">Type Inference</a></li>
+                  <li><a href="/data-and-control-flow/methods-side-effects-and-unit">Methods, Side Effects and Unit</a></li>
+                  <li><a href="/data-and-control-flow/for-expressions">For-Expressions</a></li>
+                  <li><a href="/data-and-control-flow/pattern-matching">Pattern Matching</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Object-Oriented Programming <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/object-oriented-programming/classes-and-objects">Classes and Objects</a></li>
+                  <li><a href="/object-oriented-programming/apply-unapply-and-case-classes">Apply, Unapply and Case Classes</a></li>
+                  <li><a href="/object-oriented-programming/abstract-and-sealed-classes">Abstract and Sealed Classes</a></li>
+                  <li><a href="/object-oriented-programming/traits">Traits</a></li>
+                  <li><a href="/object-oriented-programming/path-dependent-types">Path-Dependent Types</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Generics and Functional Programming <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/generics-and-functional-programming/introduction-to-generics">Introduction to Generics</a></li>
+                  <li><a href="/generics-and-functional-programming/functional-programming">Functional Programming</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Design Patterns <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/design-patterns/design-patterns">Design Patterns</a></li>
+                  <li><a href="/design-patterns/monads">Monads</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @content
+
+    <footer class="footer">
+      <div class="container">
+        <p>Designed and built with all the love in the world by <a href="http://twitter.com/mergeconflict" target="_blank">@@mergeconflict</a>.</p>
+      </div>
+    </footer>
+
+    <script src="/assets/jquery/2.0.2/jquery.min.js"></script>
+    <script src="/assets/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="/assets/codemirror/3.14/lib/codemirror.js"></script>
+    <script src="/assets/codemirror/3.14/mode/clike/clike.js"></script>
+    <script src="/assets/codemirror/3.14/addon/edit/closebrackets.js"></script>
+    <script src="/assets/codemirror/3.14/addon/edit/matchbrackets.js"></script>
+    <script src="/assets/jquery-cookie.js"></script>
+    <script src="/assets/scaffold.js"></script>
+	<script src="/assets/show-hint.js"></script>
+  </body>
+</html>

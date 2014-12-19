@@ -29,6 +29,7 @@ package object jackey {
       // try也是面向表达式的 异常Scala中的异常可以在try-catch-finally语法中通过模式匹配使用。
       val result: Int = try {
         //remoteCalculatorService.add(1, 2)
+        1
       } catch {
         case e: Exception => {
           //log.error(e, "the remote calculator service is unavailable. should have kept your trusty HP.")
@@ -36,9 +37,9 @@ package object jackey {
         }
       } finally {
         //remoteCalculatorService.close()
+        1
       }
-    }
-  }
+
 
   //特质（Traits）特质是一些字段和行为的集合，可以扩展或混入（mixin）你的类中。
   trait Ord {

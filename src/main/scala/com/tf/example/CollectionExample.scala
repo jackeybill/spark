@@ -34,7 +34,7 @@ object CollectionExample {
   Map("foo" -> "bar")
   Map(1 -> Map("foo" -> "bar"))
   Map("timesTwo" -> { CollectionExample(_,_) })
-  Map((1, "one"), (2, "two")
+  Map((1, "one"), (2, "two"))
 
   // Map.get 使用 Option 作为其返回值，表示这个方法也许不会返回你请求的值 选项 OptionOption 是一个表示有可能包含值的容器。
   // Option基本的接口是这样的：Option本身是泛型的，并且有两个子类： Some[T] 或 None
@@ -52,9 +52,9 @@ object CollectionExample {
   numbers.get(3).getOrElse(0) * 2
   //res1: Option[java.lang.String] = None
 
-  函数组合子（Functional Combinators）List(1, 2, 3) map squared对列表中的每一个元素都应用了squared平方函数，
-  并返回一个新的列表List(1, 4, 9)。我们称这个操作map 组合子。 （如果想要更好的定义，你可能会喜欢Stackoverflow上对组合子的说明。）他们常被用在标准的数据结构上。
-  mapmap对列表中的每个元素应用一个函数，返回应用后的元素所组成的列表。
+  // 函数组合子（Functional Combinators）List(1, 2, 3) map squared对列表中的每一个元素都应用了squared平方函数，
+  // 并返回一个新的列表List(1, 4, 9)。我们称这个操作map 组合子。 （如果想要更好的定义，你可能会喜欢Stackoverflow上对组合子的说明。）他们常被用在标准的数据结构上。
+  // mapmap对列表中的每个元素应用一个函数，返回应用后的元素所组成的列表。
   numbers.map((i: Int) => i * 2)
   //res0: List[Int] = List(2, 4, 6, 8)
   //或传入一个部分应用函数
@@ -74,7 +74,7 @@ object CollectionExample {
   numbers.filter(isEven _)
   //res2: List[Int] = List(2, 4)
 
-  zip将两个列表的内容聚合到一个对偶列表中。
+  //zip将两个列表的内容聚合到一个对偶列表中。
   List(1, 2, 3).zip(List("a", "b", "c"))
   //res0: List[(Int, String)] = List((1,a), (2,b), (3,c))
 
@@ -156,10 +156,10 @@ object CollectionExample {
   val extensions = Map("steve" -> 100, "bob" -> 101, "joe" -> 201)
   //extensions: scala.collection.immutable.Map[String,Int] = Map((steve,100), (bob,101), (joe,201))
   //现在筛选出电话分机号码低于200的条目。
-  extensions.filter((namePhone: (String, Int)) => namePhone._2 < 200)
+  //extensions.filter((namePhone: (String, Int)) => namePhone._2 < 200)
   //res0: scala.collection.immutable.Map[String,Int] = Map((steve,100), (bob,101))
   //因为参数是元组，所以你必须使用位置获取器来读取它们的键和值。我们其实可以使用模式匹配更优雅地提取键和值。
-  extensions.filter({case (name, extension) => extension < 200})
+  //extensions.filter({case (name, extension) => extension < 200})
   //res0: scala.collection.immutable.Map[String,Int] = Map((steve,100), (bob,101))
 
   //函数组合让我们创建两个函数：
@@ -237,7 +237,7 @@ object CollectionExample {
   // res5: List[Any] = List(2, 1, bar, foo)
 
   //现在我们无法恢复其中成员的任何类型信息。
-  res5.head
+  //res5.head
   // res6: Any = 2
 
   //所以我们的应用程序将会退化为一系列类型转换（“asInstanceOf[]”），并且会缺乏类型安全的保障（因为这些都是动态的）。
@@ -281,7 +281,7 @@ object CollectionExample {
   val cv: Contravariant[String] = new Contravariant[AnyRef]
   //    cv: Contravariant[AnyRef] = Contravariant@49fa7ba
 
-  val fail: Contravariant[AnyRef] = new Contravariant[String]
+  //val fail: Contravariant[AnyRef] = new Contravariant[String]
   //    <console>:6: error: type mismatch;
         ^
   /*

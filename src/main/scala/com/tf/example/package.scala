@@ -21,10 +21,10 @@ package object jackey {
     def main(args: Array[String]) {
       val now = new Date
       val df = getDateInstance(LONG, Locale.FRANCE)
-      println(df format now) <> df.format(now)
+      println(df format now) // <> df.format(now)
 
       // 直接访问这些成员
-      println("the color is: " + com.tf.example.jackey.toString)
+      println("the color is: " + com.tf.example.jackey.FrenchDate.toString() )
 
       // try也是面向表达式的 异常Scala中的异常可以在try-catch-finally语法中通过模式匹配使用。
       val result: Int = try {
@@ -37,10 +37,9 @@ package object jackey {
         }
       } finally {
         //remoteCalculatorService.close()
-        1
       }
-
-
+    }
+  }
   //特质（Traits）特质是一些字段和行为的集合，可以扩展或混入（mixin）你的类中。
   trait Ord {
     val name: String
@@ -53,24 +52,23 @@ package object jackey {
   }
 
   //通过with关键字，一个类可以扩展多个特质：constructor
-  class Continuation(run: PartialFunction[Any, Route], ctx: RequestContext) extends Actor with Ord with CountMe {
+  abstract class Continuation(run: PartialFunction[Any, Route], ctx: RequestContext) extends Actor with Ord with CountMe {
     //1.不变量（val）, 不能改变这个不变量的值.
     val two = 1 + 1
     //two: Int = 2
 
     //2.需要修改这个名称和结果的绑定，可以选择使用var
-    var name = "steve"
+    var nameVar = "steve"
     //name: java.lang.String = steve
 
-    name = "jackey"
+    nameVar = "jackey"
     //name: java.lang.String = jackey
 
     //3. 匿名函数
     (x: Int) => x + 1
     //res2: (Int) => Int = <function1>
-
     // 这个函数为名为x的Int变量加1。
-    res2(1)
+    //res2(1)
     //res3: Int = 2
 
     //4.传递匿名函数，或将其保存成不变量。
@@ -115,7 +113,7 @@ package object jackey {
     val timesTwo = multiply(2) _
     // timesTwo: (Int) => Int = <function1>
 
-    timesTwo(3)
+    //timesTwo(3)
     // res1: Int = 6
 
     //8. 你可以对任何多参数函数执行柯里化。例如之前的adder函数
@@ -136,6 +134,7 @@ package object jackey {
     //  calc: Calculator = Calculator@e75a11
 
     // 颜色的值就是绑定在一个if/else表达式上的。Scala是高度面向表达式的：大多数东西都是表达式而非指令。
+    var brand = "new"
     val color: String = if (brand == "TI") {
       "blue"
     } else if (brand == "HP") {
@@ -156,7 +155,7 @@ package object jackey {
     }
     // defined class Circle
     //不能创建抽象类的实例。
-    val s = new Shape
+    //val s = new Shape
     // <console>:8: error: class Shape is abstract; cannot be instantiated
 
     val c = new Circle(2)
@@ -192,7 +191,7 @@ package object jackey {
     }
 
     // 实例化对象看起来像是在调用一个方法
-    val newFoo = Tangle(4)
+    val newFoo = new Tangle(4)
     //newFoo: Tangle = Tangle@5b83f762
 
     //使用守卫进行匹配
@@ -221,7 +220,7 @@ package object jackey {
 
   object AppExample extends App {
 
-    def main(args: Array[String]) {
+    override def main(args: Array[String]) {
       // yield ??
       val res = for (a <- args) yield a.toUpperCase
       println("Arguments: " + res.toString)

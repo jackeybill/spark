@@ -3,7 +3,7 @@ package com.tf.example
 case class CollectionExample(interface: String = "localhost", port: Int = 8080)
 
 object CollectionExample {
-  //列表 List
+  //列表 List. Public是Scala的缺省访问级别。
   val numbers = List(1, 2, 3, 4)
   //numbers: List[Int] = List(1, 2, 3, 4)
 
@@ -30,6 +30,7 @@ object CollectionExample {
   //res0: (Int, Int) = (1,2)
 
   //映射 Map它可以持有基本数据类型。第一个参数是映射的键，第二个参数是映射的值。映射的值可以是映射甚或是函数。
+  //Scala里允许你对任何对象调用->的机制被称为隐式转换
   Map(1 -> 2)
   Map("foo" -> "bar")
   Map(1 -> Map("foo" -> "bar"))
@@ -232,6 +233,9 @@ object CollectionExample {
 
   参数化多态性多态性是在不影响静态类型丰富性的前提下，用来（给不同类型的值）编写通用代码的。
   例如，如果没有参数化多态性，一个通用的列表数据结构总是看起来像这样（事实上，它看起来很像使用泛型前的Java）：
+
+  List最常用的操作符是发音为“cons”的‘::’。Cons把一个新元素组合到已有List的最前端，然后返回结果List。
+  类List没有提供append操作，因为随着列表变长append的耗时将呈线性增长，而使用::做前缀则仅花费常量时间
   */
   2 :: 1 :: "bar" :: "foo" :: Nil
   // res5: List[Any] = List(2, 1, bar, foo)
@@ -239,6 +243,15 @@ object CollectionExample {
   //现在我们无法恢复其中成员的任何类型信息。
   //res5.head
   // res6: Any = 2
+
+  // List有个叫“:::”的方法实现叠加功能
+  val oneTwo = List(1, 2)
+  val threeFour = List(3, 4)
+  val oneTwoThreeFour = oneTwo ::: threeFour
+  println(oneTwo + " and " + threeFour + " were not mutated.")
+  println("Thus, " + oneTwoThreeFour + " is a new List.")
+  //List(1, 2) and List(3, 4) were not mutated.
+  //Thus, List(1, 2, 3, 4) is a new List.
 
   //所以我们的应用程序将会退化为一系列类型转换（“asInstanceOf[]”），并且会缺乏类型安全的保障（因为这些都是动态的）。
   //多态性是通过指定 类型变量 实现的。

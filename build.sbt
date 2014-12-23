@@ -1,19 +1,18 @@
-name := "scalaExample"
+name := "scaffold"
 
-organization := "com.tf"
+organization := "com.twitter"
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.2"
+scalaVersion := "2.10.2"
 
-resolvers ++= Seq(
-  "spray repo" % "http://repo.spray.io",
-  "Akka Repository" % "http://repo.akka.io/releases/",
-  "opennlp sourceforge repo" % "http://opennlp.sourceforge.net/maven2"
-  "Sonatype Snapshots" % "https://oss.sonatype.org/content/repositories/releases/"
-)
+resolvers += "spray repo" at "http://repo.spray.io"
 
-scalacOptions += "-target:jvm-1.7"
+resolvers +=   "Akka Repository" at "http://repo.akka.io/releases/"
+
+resolvers +=   "opennlp sourceforge repo" at "http://opennlp.sourceforge.net/maven2"
+
+resolvers +=   "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/releases/"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor"     % "2.2.0-RC1" % "compile",
@@ -30,7 +29,23 @@ libraryDependencies ++= Seq(
   "org.webjars"       %  "jquery"         % "2.0.2"     % "runtime",
   "com.typesafe.akka" %% "akka-testkit"   % "2.2.0-RC1" % "test",
   "io.spray"          %  "spray-testkit"  % "1.2-M8"    % "test",
-  "org.scalatest"     %% "scalatest"      % "1.9.1"     % "test"
+  "org.scalatest" % "scalatest_2.10.0-M4" % "1.9-2.10.0-M4-B1"     % "test",
+  "com.datastax.spark" %% "spark-cassandra-connector" % "1.1.0-beta1"      % "runtime",
+  "org.apache.spark" %% "spark-core" % "1.1.0"     % "runtime",
+  "org.apache.spark" %% "spark-mllib" % "1.1.0"     % "runtime",
+  "org.apache.spark" %% "spark-sql" % "1.1.0"     % "runtime",
+  "org.apache.spark" %% "spark-streaming" % "1.1.0"     % "runtime",
+  "org.apache.spark" %% "spark-streaming-twitter" % "1.1.0"     % "runtime",
+  "org.apache.ctakes" % "ctakes-core" % "3.2.0"     % "runtime",
+  "org.apache.ctakes" % "ctakes-core-res" % "3.2.0"     % "runtime",
+  "org.apache.ctakes" % "ctakes-constituency-parser" % "3.2.0"     % "runtime",
+  "org.apache.ctakes" % "ctakes-clinical-pipeline" % "3.2.0"     % "runtime",
+  "com.google.code.gson" % "gson" % "2.3"     % "runtime",
+  "com.google.guava"      % "guava" % "11.0.1"        % "test",
+  "org.specs2"                 % "specs2_2.9.2"        %"1.12.3"       % "test",
+  "org.twitter4j" % "twitter4j-core" % "3.0.3"     % "runtime",
+  "commons-cli" % "commons-cli" % "1.2"     % "runtime",
+  "junit" % "junit" % "4.8.1" % "test"
 )
 
 fork := true
@@ -42,34 +57,3 @@ seq(Twirl.settings: _*)
 seq(com.typesafe.sbt.SbtStartScript.startScriptForClassesSettings: _*)
 
 Twirl.twirlImports := Seq("com.twitter.scaffold.Document", "Document._")
-
-libraryDependencies += "com.datastax.spark" %% "spark-cassandra-connector" % "1.1.0-beta1" withSources() withJavadoc()
-
-libraryDependencies += "org.apache.spark" %% "spark-core" % "1.1.0"
-
-libraryDependencies +=  "org.scalatest" % "scalatest_2.10.0-M4" % "1.9-2.10.0-M4-B1"
-
-libraryDependencies +=  "junit" % "junit" % "4.8.1" % "test"
-
-libraryDependencies += "org.apache.spark" %% "spark-mllib" % "1.1.0"
-
-libraryDependencies += "org.apache.spark" %% "spark-sql" % "1.1.0"
-
-libraryDependencies += "org.apache.spark" %% "spark-streaming" % "1.1.0"
-
-libraryDependencies += "org.apache.spark" %% "spark-streaming-twitter" % "1.1.0"
-
-libraryDependencies += "com.google.code.gson" % "gson" % "2.3"
-
-libraryDependencies += "org.twitter4j" % "twitter4j-core" % "3.0.3"
-
-libraryDependencies += "commons-cli" % "commons-cli" % "1.2"
-
-libraryDependencies += "org.apache.ctakes" % "ctakes-core" % "3.2.0"
-
-libraryDependencies += "org.apache.ctakes" % "ctakes-core-res" % "3.2.0"
-
-libraryDependencies += "org.apache.ctakes" % "ctakes-constituency-parser" % "3.2.0"
-
-libraryDependencies += "org.apache.ctakes" % "ctakes-clinical-pipeline" % "3.2.0"
-

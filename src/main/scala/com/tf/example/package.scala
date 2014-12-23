@@ -1,6 +1,10 @@
 // 包你可以将代码组织在包里。
 package com.tf.example
 
+import java.io.IOException
+
+// Scala编程是：兼容性，简短，高层级抽象和高级的静态类别。
+
 package object jackey {
   // 在文件头部定义包，会将文件中所有的代码声明在那个包中。
   // 值和函数不能在类或单例对象之外定义。单例对象是组织静态函数(static function)的有效工具。
@@ -19,6 +23,42 @@ package object jackey {
   // 单例对象单例对象用于持有一个类的唯一实例。通常用于工厂模式。
   object FrenchDate {
     def main(args: Array[String]) {
+      var line = ""
+      while ((line = readLine()) != "") // 不起作用
+        println("Read: "+ line)
+      // Scala会警告你使用!=比较类型为Unit和String的值将永远产生true。而在Java里，赋值语句可以返回被赋予的那个值，
+      // 同样情况下标准输入返回的一条记录在Scala的赋值语句中永远产生unit值，()。
+      // 因此，赋值语句“line = readLine()”的值将永远是()而不是""。
+      // 结果，这个while循环的状态将永远不会是假，于是循环将因此永远不会结束
+
+      // 不想包括被枚举的Range的上边界，可以用until替代to;  for (i <- 1 until 4) | for (i <- 0 to filesHere.length - 1)
+      for (i <- 1 to 4)
+        println("Iteration " + i)
+
+      // 包含更多的过滤器。只要不断加到子句里即可 仅仅打印文件而不是目录。通过增加过滤器检查file的isFile方法
+      for ( file <- filesHere
+            if file.isFile; // 如果在发生器中加入超过一个过滤器，if子句必须用分号分隔
+            if file.getName.endsWith(".scala") )
+        println(file)
+
+      def grep(pattern: String) =
+        for {
+          file <- filesHere
+          if file.getName.endsWith(".scala")
+          line <- fileLines(file)
+          trimmed = line.trim
+          if trimmed.matches(pattern)
+        } yield file; println(file + ": " + trimmed) //创建一个值去记住每一次的迭代。只要在for表达式之前加上关键字yield。比如，下面的函数鉴别出.scala文件并保存在数组里： 结果为Array[File]
+      grep(".*gcd.*")
+
+      // for {子句} yield {循环体}
+
+      val escapes = "\\\"\'"
+      // escapes: java.lang.String = \"'
+      println(
+        """|Welcome to Ultamix 3000.
+          |Type "HELP" for help.""".stripMargin)
+
       val now = new Date
       val df = getDateInstance(LONG, Locale.FRANCE)
       println(df format now) // <> df.format(now)
@@ -28,6 +68,7 @@ package object jackey {
 
       // try也是面向表达式的 异常Scala中的异常可以在try-catch-finally语法中通过模式匹配使用。
       val result: Int = try {
+        require(result != 0)
         //remoteCalculatorService.add(1, 2)
         1
       } catch {
@@ -35,6 +76,7 @@ package object jackey {
           //log.error(e, "the remote calculator service is unavailable. should have kept your trusty HP.")
           0
         }
+        case ex: IOException => { throw new RuntimeException("n must be even"); 0 }// Handle other I/O error
       } finally {
         //remoteCalculatorService.close()
       }
@@ -44,7 +86,25 @@ package object jackey {
   trait Ord {
     val name: String
     def test(that: Any): Boolean
+
+    //可以在一个内部范围内定义与外部范围里名称相同的变量。下列脚本将编译通过并可以运行：
+    val a = 1;
+      { val a = 2 // 编译通过
+        println(a)
+      }
+    println(a)
+    //执行时，这个脚本会先打印2，然后打印1，因为定义在内部打括号里的a是不同的变量，将仅在大括号内部有效。
+    // 重构指令式风格的代码Scala和Java间要注意的一个不同是，与Scala不同，Java不允许你在内部范围内创建与外部范围变量同名的变量。
+    // 在Scala程序里，内部变量被说成是遮蔽：shadow了同名的外部变量，因为在内部范围内外部变量变得不可见了。
+
+    // 依照这个函数文本在运行时创建的函数值（对象）被称为闭包：closure
+    //不带自由变量的函数文本，如(x: Int) => x + 1，被称为封闭术语：closed term，这里术语：term指的是一小部分源代码。
+    val addMore = (x: Int) => x + 1
+
+
   }
+
+
 
   trait CountMe {
     var num: Int
@@ -126,9 +186,37 @@ package object jackey {
         arg.capitalize
       }
     }
-
     capitalizeAll("rarity", "applejack")
     // res2: Seq[String] = ArrayBuffer(Rarity, Applejack)
+    val arr = Array("What's", "up", "doc?")
+    capitalizeAll(arr)
+    // <console>:7: error: type mismatch;
+    capitalizeAll(arr: _*) //
+
+    // 高阶函数：higher-order function
+    // 所有的函数都被分割成通用部分，它们在每次函数调用中都相同，以及非通用部分，在不同的函数调用中可能会变化。
+    // 通用部分是函数体，而非通用部分必须由参数提供。当你把函数值用做参数时，算法的非通用部分就是它代表的某些其它算法。
+    // 在这种函数的每一次调用中，你都可以把不同的函数值作为参数传入，于是被调用函数将在每次选用参数的时候调用传入的函数值。
+    // 这种高阶函数：higher-order function——带其它函数做参数的函数——给了你额外的机会去组织和简化代码。
+    // 函数值提供了一个答案。虽然你不能把方法名当作值传递，但你可以通过传递为你调用方法的函数值达到同样的效果。
+    // 在这个例子里，你可以给方法添加一个matcher参数，
+    // 其唯一的目的就是针对查询检查文件名： def filesMatching(query: String, matcher: (String, String) => Boolean) = { for (file <- filesHere; if matcher(file.getName, query)) yield file } 方法的这个版本中，
+    // if子句现在使用matcher针对查询检查文件名。更精确的说法是这个检查不依赖于matcher定义了什么。现在看一下matcher的类型。
+    // 它是一个函数，因此类型中有个=>。这个函数带两个字串参数——文件名和查询——并返回布尔值，因此这个函数的类型是(String, String) => Boolean。
+    // 有了这个新的filesMatching帮助方法，你可以通过让三个搜索方法调用它，
+    // 并传入合适的函数来简化它们： def filesEnding(query: String) = filesMatching(query, _.endsWith(_)) def filesContaining(query: String) = filesMatching(query, _.contains(_)) def filesRegex(query: String) = filesMatching(query, _.matches(_))
+    // 这个例子中展示的函数文本使用了前一章中介绍的占位符语法，对你来说可能感觉不是非常自然。因此，以下阐明例子里是如何使用占位符的。用在filesEnding方法里的函数文本_.endsWith(_)，与下面的是一回事：
+    object FileMatcher {
+      private def filesHere = (new java.io.File(".")).listFiles
+      private def filesMatching(matcher: String => Boolean) =
+        for (file <- filesHere; if matcher(file.getName))
+          yield file
+      def filesEnding(query: String) =
+        filesMatching(_.endsWith(query))
+      def filesContaining(query: String) =
+        filesMatching(_.contains(query))
+      def filesRegex(query: String) = filesMatching(_.matches(query))
+    }
 
     // val calc = new Calculator
     //  calc: Calculator = Calculator@e75a11
@@ -240,7 +328,9 @@ package object jackey {
         println("How are you today?")
     }
 
-    /* Adding ! as a method on int's */
+    /* Adding ! as a method on int's
+    * factorial(x)，或者x!是一种数学表达，就是计算1*2*…*x的值，并且定义0!的值为1。
+    * */
     def fact(n: Int): BigInt =
       if (n == 0) 1 else fact(n-1) * n
     class Factorizer(n: Int) {
@@ -282,7 +372,21 @@ package object jackey {
     def isPrime(n: Int) = (2 until n) forall (n % _ != 0)
     for (i <- 1 to 100 if isPrime(i)) println(i)
 
-    //
+    // curry化后的同一个函数。代之以一个列表的两个Int参数，你把这个函数应用于两个列表的各一个参数。
+    def curriedSum(x: Int)(y: Int) = x + y
+    // curriedSum: (Int)(Int)Int
+    curriedSum(1)(2)
+    // res5: Int = 3
+    val second = curriedSum(1) // 调用第一个函数并传入1——会产生第二个函数
+    // second: (Int) => Int = <function>
+    second(2)
+    // res6: Int = 3
+    val onePlus = curriedSum(1)_  //用偏应用函数表达式方式，把占位符标注用在curriedSum里 curriedSum(1)_里的下划线是第二个参数列表的占位符
+    //onePlus: (Int) => Int = <function>
+    onePlus(2)
+    // res7: Int = 3
+
+
 
 
 
